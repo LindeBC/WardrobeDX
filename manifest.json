@@ -1,0 +1,27 @@
+{
+    "name": "Wardrobe Extension Lite DX",
+    "version": "2.0",
+    "description": "Extension for saving more outfits in local storage.",
+    "permissions": ["storage", "activeTab", "declarativeContent"],
+    "content_scripts": [
+        {
+            "matches": ["*://bondageprojects.com/college/*", 
+                "*://www.bondageprojects.com/college/*", 
+                "*://www.bondageprojects.elementfx.com/*", 
+                "*://bondageprojects.elementfx.com/*", 
+                "*://*.bondageprojects.com/*",
+                "*://*.bondageprojects.elementfx.com/*",
+                "*://*.bondage-europe.com/*"],
+            "js": ["setup.js"],
+            "run_at": "document_end"
+        }
+    ],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "page_action": {
+        "default_popup": "popup.html"
+    },
+    "manifest_version": 2
+  }

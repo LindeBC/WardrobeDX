@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+      body {
+        user-select: none;
+        font-family: 'Roboto';
+        margin: 5px;
+      }
+      
+      button {
+        width: 200px;
+        outline: none;
+        margin: 0 auto;
+        display: block;
+        font-family: 'Roboto';
+      }
+
+      p {
+        text-align: center;
+        margin: 5px;
+        margin-top: 0;
+        font-family: 'Roboto';
+        font-size: 15px;
+      }
+
+      .outfitElement, .groupElement {
+        display: block;
+        height: 30px;
+        width: 233px;
+        border-bottom: 1px solid #cccccc;
+        margin-bottom: 3px;
+        position: relative;
+      }
+
+      .outfitName, .groupName {
+        float: left;
+        width: 183px;
+        padding: 9px 0px;
+        text-align: center;
+        margin-right: 30px;
+      }
+
+      .groupName {
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .outfitName:hover {
+        background-color: #dfdfdf;
+      }
+
+      .groupName:hover {
+        background-color: #bdbdbd;
+      }
+
+      .outfitOrganize, .groupOrganize {
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        left: 2px;
+      }
+
+      .up {
+        top: 1px;
+      }
+
+      .down {
+        top: 12px;
+      }
+
+      .outfitRemove, .groupRemove {
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        right: 0px;
+        top: 3px;
+      }
+
+      .outfitMove {
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        right: 27px;
+        top: 7px;
+      }
+
+      .accordionIcon {
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        right: 52px;
+        top: 8px;
+      }
+
+      .groupPicker {
+        width: 100%;
+        height: auto;
+        margin-bottom: -3px;
+      }
+
+      .folderImage {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .tablinks {
+        background-color: #212121;
+        color: #ffffff;
+        float: left;
+        border: none;
+        cursor: pointer;
+        padding: 10px 5px;
+        font-size: 12px;
+        width: 50%;
+        margin: 0;
+        font-family: 'Roboto';
+      }
+
+      .tablinks:hover {
+        background-color: #333333;
+      }
+
+      .tablinks.active {
+        font-weight: bold;
+        border-bottom: 2px solid white;
+      }
+
+      .tab {
+        background-color: #f5f5f6;
+        padding: 10px 0px;
+      }
+
+      #tabs {
+        overflow: hidden;
+        display: block;
+        background-color: #212121;
+        width: 250px;
+      }
+
+      #outfitName, #groupName {
+        width: 192px;
+        margin: 5px auto;
+        display: block;
+      }
+
+      #outfitList {
+        max-height: 300px;
+        overflow-y: scroll;
+      }
+
+      #outfitsTab {
+        display: none;
+      }
+
+      #spacer {
+        display: block;
+        width: 250px;
+        height: 15px;
+        background-color: #000000;
+      }
+
+      #dataSync {
+        display: none;
+      }
+
+      #dataArea {
+        height: 300px;
+        width: 245px;
+      }
+
+      #listEdit {
+        float: left;
+        padding-left: 2px;
+        height: 16px;
+        width: 16px;
+      }
+
+      .rename {
+        width: 80%;
+        height: 15px;
+        float: left;
+        margin-bottom: -5px;
+      }
+
+      .renameButton {
+        width: 20px;
+        height: 20px;
+        float: right;
+        margin-bottom: -5px;
+        background-image: url("assets/rename.png");
+        background-size: 13px 13px;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      /* Tooltip container */
+      .tooltip {
+        float: left;
+        padding-left: 2px;
+        height: 16px;
+        width: 16px;
+        position: relative;
+      }
+
+      /* Tooltip text */
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 50px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+      
+        /* Position the tooltip text - see examples below! */
+        position: absolute;
+        z-index: 1;
+        top: -5px;
+        left: 165%;
+        opacity: 0;
+        transition: opacity 1s;
+      }
+
+      .tooltip .tooltiptext::after {
+        content: " ";
+        position: absolute;
+        top: 50%;
+        right: 100%; /* To the left of the tooltip */
+        margin-top: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent black transparent transparent;
+      }
+
+      /* Show the tooltip text when you mouse over the tooltip container */
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="spacer"></div>
+    <div id="tabs">
+      <button class="tablinks active" id="save">Save</button>
+      <button class="tablinks" id="outfits">Outfits</button>
+    </div>
+    <div class="tab" id="saveTab">
+      <p>Outfit name:</p>
+      <input type="text" id="outfitName" maxlength="23">
+      <!--
+      <p>Type:</p>
+      <select id="typeSelector">
+        <option value="r">Restraints Only</option>
+        <option value="o">Outfit Only</option>
+        <option value="r&o" selected="selected">Both</option>
+      </select>
+      -->
+      <button id="saveAppearance">Save Outfit</button>
+      <br><br><br>
+      <p>Group name:</p>
+      <input type="text" id="groupName" maxlength="23">
+      <button id="saveGroup">Create Group</button>
+      <br><br><br>
+      <p>Copy outfit data to clipboard:</p>
+      <button id="exportButton">Export Outfits</button>
+    </div>
+    <div class="tab" id="outfitsTab">
+      <div id="saved">
+        <div class="tooltip">
+          <span class="tooltiptext" id="listEditTooltip">Edit List</span>
+          <img src="assets/pencil.png" id="listEdit" data-clicked="unclicked">
+        </div>
+        <p>Saved outfits:</p>
+        <div id="outfitList"></div>
+      </div>
+      
+      <div id="dataSync">
+        <p>Import outfits:</p>
+        <textarea id="dataArea"></textarea>
+        <button id="importButton">Import outfits</button>
+      </div>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
